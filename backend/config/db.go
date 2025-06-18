@@ -15,8 +15,8 @@ var DB *gorm.DB
 func ConnectDatabase() error {
 	err := godotenv.Load()
 	if err != nil {
+		log.Fatalf("Error loading .env file")
 		return err
-
 	}
 
 	dbUser := os.Getenv("DB_USER")
@@ -32,16 +32,18 @@ func ConnectDatabase() error {
 
 	database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
+		log.Fatalf("Error connecting to database: %v", err)
 		return err
 	}
 	DB = database
 
 	sqlDB, err := DB.DB()
 	if err != nil {
+		log.Fatalf("Error connecting to database: %v", err)
 		return err
 	}
 
-	if err := sqlDB.Ping(); err != nil {
+	if err = sqlDB.Ping(); err != nil {
 		return err
 	}
 
@@ -53,6 +55,7 @@ func ConnectDatabase() error {
 		// &models.InscriptionActivity{}, // si existe explícitamente
 	)
 	if err != nil {
+		log.Fatalf("Error migrating database: %v", err)
 		return err
 	}
 	return nil

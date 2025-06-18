@@ -2,7 +2,6 @@ package repository
 
 import (
 	"backend/models"
-	"backend/utils"
 	"gorm.io/gorm"
 )
 
@@ -28,7 +27,6 @@ func (r *UserRepository) FindAllUsers() ([]models.User, error) {
 	return users, err
 }
 func (r *UserRepository) Create(user *models.User) error {
-	user.PasswordHash = utils.HashPasswordSHA256(user.PasswordHash) // aplica SHA256 antes de guardar
-	result := r.DB.Create(user)
-	return result.Error
+
+	return r.DB.Create(user).Error
 }
