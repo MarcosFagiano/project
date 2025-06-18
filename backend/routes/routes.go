@@ -1,13 +1,25 @@
 package routes
 
 import (
+	"backend/controllers"
 	"github.com/gin-gonic/gin"
-	"myapp/controllers"
 )
 
-func SetupRoutes(r *gin.Engine) {
-	userRoutes := r.Group("/users")
-	{
-		userRoutes.GET("/", controllers.GetUsers)
+//
+//func SetupRoutes(r *gin.Engine) {
+//	userRoutes := r.Group("/users")
+//	{
+//		userRoutes.GET("/", controllers.GetUsers)
+//	}
+//}
+
+func Init() error {
+	router := gin.Default()
+	router.POST("/login", controllers.Login)
+
+	err := router.Run(":8080")
+	if err != nil {
+		return err
 	}
+	return nil
 }

@@ -1,14 +1,23 @@
 package main
 
 import (
-    "myapp/config"
-    "myapp/routes"
-    "github.com/gin-gonic/gin"
+	"backend/config"
+	"backend/routes"
+	"log"
 )
 
 func main() {
-    config.LoadEnv()
-    r := gin.Default()
-    routes.SetupRoutes(r)
-    r.Run(":8080")
+	//config.LoadEnv()
+	//r := gin.Default()
+	//routes.SetupRoutes(r)
+	//r.Run(":8080")
+	err := config.ConnectDatabase()
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = routes.Init()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 }

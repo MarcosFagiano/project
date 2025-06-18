@@ -1,0 +1,17 @@
+# Archivos de entorno
+.env
+
+# Bases de datos locales
+*.db
+
+# Binarios
+*.exe
+*.out
+*.o
+
+# Archivos de compilación
+/build
+
+
+#Archivos internos
+info.md

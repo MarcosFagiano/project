@@ -1,15 +1,10 @@
 package controllers
 
-import (
-	"myapp/models"
-	"net/http"
-
-	"github.com/gin-gonic/gin"
-)
-
-func GetUsers(c *gin.Context) {
-	users := []models.User{
-		{ID: 1, Name: "Juan", Email: "juan@example.com"},
-	}
-	c.JSON(http.StatusOK, users)
-}
+//func (h *UserHandler) GetUsers(w http.ResponseWriter, r *http.Request) {
+//	users, err := h.service.GetAllUsers()
+//	if err != nil {
+//		http.Error(w, err.Error(), http.StatusInternalServerError)
+//		return
+//	}
+//	json.NewEncoder(w).Encode(users)
+//}
