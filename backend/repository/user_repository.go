@@ -28,7 +28,7 @@ func (r *UserRepository) FindAllUsers() ([]models.User, error) {
 	return users, err
 }
 func (r *UserRepository) Create(user *models.User) error {
-	user.Password = utils.HashPasswordSHA256(user.Password) // aplica SHA256 antes de guardar
+	user.PasswordHash = utils.HashPasswordSHA256(user.PasswordHash) // aplica SHA256 antes de guardar
 	result := r.DB.Create(user)
 	return result.Error
 }

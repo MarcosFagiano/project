@@ -16,6 +16,7 @@ import (
 func Init() error {
 	router := gin.Default()
 	router.POST("/login", controllers.Login)
+	router.POST("/singup", controllers.Singup)
 
 	err := router.Run(":8080")
 	if err != nil {

@@ -12,8 +12,6 @@ func UserDTOToModel(dto dto.UserDTO) models.User {
 		FamilyName:  dto.FamilyName,
 		PhoneNumber: dto.PhoneNumber,
 		Email:       dto.Email,
-		Admin:       dto.Admin,
-		// El password se setea en el service con hash
 	}
 }
 

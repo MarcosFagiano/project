@@ -11,8 +11,6 @@ var jwtKey = []byte("holis")
 func Login(c *gin.Context) {
 	var login dto.LoginDTO
 
-	//Lamamos a BindJSON para unir la informacion del nuevo usuario
-	//de JSON a user
 	if err := c.ShouldBindJSON(&login); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
