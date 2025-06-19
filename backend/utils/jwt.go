@@ -19,11 +19,25 @@ func CheckPassword(password string, hash string) bool {
 	return HashPassword(password) == hash
 }
 
-func GenerateJWT(email string, admin bool) (string, error) {
+func GenerateJWT(email string, admin interface{}) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"email": email,
 		"admin": admin,
 		"exp":   time.Now().Add(time.Hour * 72).Unix(),
 	})
 	return token.SignedString(jwtKey)
+}
+func ParseJWT(tokenStr string) (jwt.MapClaims, error) {
+	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
+		return jwtKey, nil
+	})
+	if err != nil || !token.Valid {
+		return nil, err
+	}
+
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		return nil, err
+	}
+	return claims, nil
 }

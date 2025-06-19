@@ -26,7 +26,7 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	_, err := repo.FindUserByEmail(input.Email)
+	_, err := repo.GetUserByEmail(input.Email)
 	if err == nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Email already registered"})
 		return
@@ -38,7 +38,7 @@ func Register(c *gin.Context) {
 
 	hashedPassword := utils.HashPassword(input.Password)
 	newUser := mapper.UserRegisterDTOToModel(input, hashedPassword)
-	if err := repo.Create(&newUser); err != nil {
+	if err = repo.CreateUser(&newUser); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
@@ -60,7 +60,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	user, err := repo.FindUserByEmail(input.Email)
+	user, err := repo.GetUserByEmail(input.Email)
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Email not found"})
 		return

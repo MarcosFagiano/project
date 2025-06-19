@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func AdminMiddleware() gin.HandlerFunc {
+func UserMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 		if authHeader == "" {
@@ -20,13 +20,6 @@ func AdminMiddleware() gin.HandlerFunc {
 		claims, err := utils.ParseJWT(tokenStr)
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
-			c.Abort()
-			return
-		}
-
-		adminVal, ok := claims["admin"].(bool)
-		if !ok || !adminVal {
-			c.JSON(http.StatusForbidden, gin.H{"error": "Admin access required"})
 			c.Abort()
 			return
 		}

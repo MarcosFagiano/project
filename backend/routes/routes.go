@@ -16,11 +16,18 @@ import (
 
 func Init() error {
 	router := gin.Default()
-	adminRouter := router.Group("/admin")
+	adminRouter := router.Group("/Admin")
 	adminRouter.Use(middleware.AdminMiddleware())
 	{
 		adminRouter.POST("/createActivity", controllers.CreateActivity)
+		adminRouter.POST("/createCategory", controllers.CreateCategory)
 	}
+	userRouter := router.Group("/User")
+	userRouter.Use(middleware.UserMiddleware())
+	{
+		userRouter.POST("/ activities/:id/inscriptions", controllers.ActivityInscriptions)
+	}
+
 	router.POST("/login", controllers.Login)
 	router.POST("/register", controllers.Register)
 
