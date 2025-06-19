@@ -2,6 +2,7 @@ package routes
 
 import (
 	"backend/controllers"
+	"backend/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,6 +16,11 @@ import (
 
 func Init() error {
 	router := gin.Default()
+	adminRouter := router.Group("/admin")
+	adminRouter.Use(middleware.AdminMiddleware())
+	{
+		adminRouter.POST("/createActivity", controllers.CreateActivity)
+	}
 	router.POST("/login", controllers.Login)
 	router.POST("/register", controllers.Register)
 

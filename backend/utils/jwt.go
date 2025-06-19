@@ -19,9 +19,10 @@ func CheckPassword(password string, hash string) bool {
 	return HashPassword(password) == hash
 }
 
-func GenerateJWT(email string) (string, error) {
+func GenerateJWT(email string, admin bool) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"email": email,
+		"admin": admin,
 		"exp":   time.Now().Add(time.Hour * 72).Unix(),
 	})
 	return token.SignedString(jwtKey)

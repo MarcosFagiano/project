@@ -12,68 +12,6 @@ import (
 	"net/http"
 )
 
-//	func Register(c *gin.Context) {
-//		repo := repository.NewUserRepository(config.DB)
-//
-//		var input dto.UserRegister
-//		if err := c.ShouldBind(&input); err != nil {
-//			c.JSON(http.StatusBadRequest, gin.H{
-//				"message": err.Error(),
-//			})
-//			return
-//		}
-//		if !utils.EmailValidation(input.Email) {
-//			c.JSON(http.StatusBadRequest, gin.H{"Error: ": "Invalid email"})
-//			return
-//		}
-//
-//		_, err := repo.FindUserByEmail(input.Email)
-//		if !errors.Is(err, gorm.ErrRecordNotFound) {
-//			c.JSON(http.StatusBadRequest, gin.H{"Error: ": " Email not found"})
-//			return
-//		}
-//
-//		hashedPassword := utils.HashPassword(input.Password)
-//
-//		newUser := mapper.UserRegisterDTOToModel(input, hashedPassword)
-//		err = repo.Create(&newUser)
-//		if err != nil {
-//			c.JSON(http.StatusBadRequest, gin.H{
-//				"message": err.Error(),
-//			})
-//			return
-//		}
-//		c.JSON(http.StatusOK, gin.H{"message": "Email registered successfully"})
-//
-// }
-//
-//	func Login(c *gin.Context) {
-//		repo := repository.NewUserRepository(config.DB)
-//
-//		var user models.User
-//		var input dto.UserLogin
-//
-//		if err := c.ShouldBind(&input); err != nil {
-//			c.JSON(http.StatusOK, gin.H{"Error: ": err.Error()})
-//			return
-//		}
-//		if !utils.EmailValidation(input.Email) {
-//			c.JSON(http.StatusBadRequest, gin.H{"Error: ": "Invalid credentials"})
-//			return
-//		}
-//		_, err := repo.FindUserByEmail(input.Email)
-//		if errors.Is(err, gorm.ErrRecordNotFound) {
-//			c.JSON(http.StatusBadRequest, gin.H{"Error: ": " Email not found"})
-//			if !utils.CheckPassword(input.Password, user.Password) {
-//				c.JSON(http.StatusBadRequest, gin.H{"Error: ": "Invalid credentials"})
-//				return
-//			}
-//			token, _ := utils.GenerateJWT(user.Email)
-//			user.Token = token
-//			repo.DB.Save(&user)
-//			c.JSON(http.StatusOK, gin.H{"token": user.Token})
-//		}
-//	}
 func Register(c *gin.Context) {
 	repo := repository.NewUserRepository(config.DB)
 
@@ -137,7 +75,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, _ := utils.GenerateJWT(user.Email)
+	token, _ := utils.GenerateJWT(user.Email, user.Admin)
 	user.Token = token
 	repo.DB.Save(&user)
 
