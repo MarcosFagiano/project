@@ -1,42 +1,104 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+:root {
+  --bs-body-bg: #121212;
+  --bs-body-color: #FFFFFF;
+  --bs-card-bg: #1E1E1E;
+  --bs-card-border-color: #333333;
+  --bs-primary: #2196F3;
+  --bs-primary-hover: #1976D2;
+  --bs-secondary: #B3B3B3;
+  --bs-border-color: #333333;
+  --bs-link-color: #2196F3;
+  --bs-link-hover-color: #1976D2;
+  --bs-success: #4CAF50;
+  --bs-danger: #F44336;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+/*body {*/
+/*  background-color: #121212;*/
+/*  color: #FFFFFF;*/
+/*  font-family: 'Roboto', sans-serif;*/
+/*  margin: 0;*/
+/*  padding: 0;*/
+/*}*/
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
+/*a {*/
+/*  color: #2196F3;*/
+/*  text-decoration: none;*/
+/*}*/
 
-.card {
-  padding: 2em;
-}
+/*a:hover {*/
+/*  color: #1976D2;*/
+/*}*/
 
-.read-the-docs {
-  color: #888;
-}
+/*.card {*/
+/*  background-color: #1E1E1E;*/
+/*  border: 1px solid #333333;*/
+/*  border-radius: 8px;*/
+/*  padding: 16px;*/
+/*  margin: 16px;*/
+/*}*/
+
+/*button {*/
+/*  background-color: #2196F3;*/
+/*  color: #FFFFFF;*/
+/*  border: none;*/
+/*  padding: 10px 20px;*/
+/*  border-radius: 4px;*/
+/*  cursor: pointer;*/
+/*}*/
+
+/*button:hover {*/
+/*  background-color: #1976D2;*/
+/*}*/
+
+/*input, select, textarea {*/
+/*  background-color: #1E1E1E;*/
+/*  color: #FFFFFF;*/
+/*  border: 1px solid #333333;*/
+/*  padding: 8px;*/
+/*  border-radius: 4px;*/
+/*}*/
+
+/*!*#root {*!*/
+/*!*  max-width: 1280px;*!*/
+/*!*  margin: 0 auto;*!*/
+/*!*  padding: 2rem;*!*/
+/*!*  text-align: center;*!*/
+/*!*}*!*/
+
+/*!*.logo {*!*/
+/*!*  height: 6em;*!*/
+/*!*  padding: 1.5em;*!*/
+/*!*  will-change: filter;*!*/
+/*!*  transition: filter 300ms;*!*/
+/*!*}*!*/
+/*!*.logo:hover {*!*/
+/*!*  filter: drop-shadow(0 0 2em #646cffaa);*!*/
+/*!*}*!*/
+/*!*.logo.react:hover {*!*/
+/*!*  filter: drop-shadow(0 0 2em #61dafbaa);*!*/
+/*!*}*!*/
+
+/*!*@keyframes logo-spin {*!*/
+/*!*  from {*!*/
+/*!*    transform: rotate(0deg);*!*/
+/*!*  }*!*/
+/*!*  to {*!*/
+/*!*    transform: rotate(360deg);*!*/
+/*!*  }*!*/
+/*!*}*!*/
+
+/*!*@media (prefers-reduced-motion: no-preference) {*!*/
+/*!*  a:nth-of-type(2) .logo {*!*/
+/*!*    animation: logo-spin infinite 20s linear;*!*/
+/*!*  }*!*/
+/*!*}*!*/
+
+/*!*.card {*!*/
+/*!*  padding: 2em;*!*/
+/*!*}*!*/
+
+/*!*.read-the-docs {*!*/
+/*!*  color: #888;*!*/
+/*!*}*!*/
