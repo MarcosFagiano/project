@@ -12,11 +12,11 @@ import (
 
 var DB *gorm.DB
 
-func ConnectDatabase() error {
+func ConnectDatabase() (*gorm.DB, error) {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatalf("Error loading .env file")
-		return err
+		return nil, err
 	}
 
 	dbUser := os.Getenv("DB_USER")
@@ -28,23 +28,23 @@ func ConnectDatabase() error {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		dbUser, dbPass, dbHost, dbPort, dbName)
 
-	log.Printf("Intentando conexión a DB en %s:%s/%s", dbHost, dbPort, dbName)
+	log.Printf("Establish conection to DB in %s:%s/%s", dbHost, dbPort, dbName)
 
 	database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("Error connecting to database: %v", err)
-		return err
+		return nil, err
 	}
 	DB = database
 
 	sqlDB, err := DB.DB()
 	if err != nil {
 		log.Fatalf("Error connecting to database: %v", err)
-		return err
+		return nil, err
 	}
 
 	if err = sqlDB.Ping(); err != nil {
-		return err
+		return nil, err
 	}
 
 	err = DB.AutoMigrate(
@@ -56,7 +56,7 @@ func ConnectDatabase() error {
 	)
 	if err != nil {
 		log.Fatalf("Error migrating database: %v", err)
-		return err
+		return nil, err
 	}
-	return nil
+	return DB, nil
 }

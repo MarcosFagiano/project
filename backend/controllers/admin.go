@@ -1,65 +1,85 @@
 package controllers
 
 import (
-	"backend/config"
 	"backend/dto"
 	"backend/mapper"
-	"backend/repository"
+	"backend/models"
+	"backend/services"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
-func CreateActivity(c *gin.Context) {
-	repo := repository.NewUserRepository(config.DB)
-
-	var input dto.Activity
-	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	exists, err := repo.ExistsActivity(input.Description, input.StartDate, input.EndDate, input.CategoryID)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error checking for duplicates"})
-		return
-	}
-	if exists {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Activity already exists"})
-		return
-	}
-
-	newActivity := mapper.ActivityDTOToModel(input)
-	if err = repo.CreateActivity(&newActivity); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"Activity created": mapper.ActivityModelToDTO(newActivity)})
+type AdminController struct {
+	adminService       *services.AdminService
+	activityService    *services.ActivityService
+	inscriptionService *services.InscriptionService
 }
 
-func CreateCategory(c *gin.Context) {
-	repo := repository.NewUserRepository(config.DB)
+// Constructor
+func NewAdminController(
+	adminService *services.AdminService,
+	activityService *services.ActivityService,
+	inscriptionService *services.InscriptionService) *AdminController {
+	return &AdminController{
+		activityService:    activityService,
+		inscriptionService: inscriptionService,
+		adminService:       adminService,
+	}
+}
 
-	var input dto.Category
-	if err := c.ShouldBindJSON(&input); err != nil {
+func (ac *AdminController) CreateActivity(c *gin.Context) {
+	var activityDTO dto.Activity
+	if err := c.ShouldBindJSON(&activityDTO); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	exists, err := repo.ExistsCategoryByName(input.Name)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error checking for duplicates"})
+	activityModel := mapper.ActivityDTOToModel(activityDTO)
+	if activityModel.StartDate.IsZero() || activityModel.EndDate.IsZero() {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "start_date and end_date are required and must be valid"})
 		return
 	}
-	if exists {
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Category already exists"})
+	if err := ac.adminService.CreateActivity(activityModel); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	newCategory := mapper.CategoryDTOToModel(input)
-	if err = repo.CreateCategory(&newCategory); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+	c.JSON(http.StatusOK, gin.H{"Success creation": activityModel})
+}
+
+func (ac *AdminController) CreateCategory(c *gin.Context) {
+	var category models.Category
+	if err := c.ShouldBindJSON(&category); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"Category created": mapper.CategoryModelToDTO(newCategory)})
+	c.JSON(http.StatusOK, gin.H{"Success creation": category})
+}
+
+func (ac *AdminController) DeleteActivity(c *gin.Context) {
+	var activityDTO dto.Activity
+	if err := c.ShouldBindJSON(&activityDTO); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	activityModel := mapper.ActivityDTOToModel(activityDTO)
+	if err := ac.adminService.DeleteActivityByID(activityModel.ID); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"Success deletion": activityModel})
+}
+
+func (ac *AdminController) UpdateActivity(c *gin.Context) {
+	var activityDTO dto.Activity
+	if err := c.ShouldBindJSON(&activityDTO); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	activityModel := mapper.ActivityDTOToModel(activityDTO)
+	if err := ac.adminService.UpdateActivity(activityModel); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"Success update": activityModel})
 }

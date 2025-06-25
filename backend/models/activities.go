@@ -3,11 +3,10 @@ package models
 import "time"
 
 type Activity struct {
-	ID          uint   `gorm:"primaryKey;autoIncrement"`
-	Description string `gorm:"size:255"`
+	ID          uint `gorm:"primaryKey;autoIncrement"`
+	CategoryID  uint `gorm:"foreignKey:CategoryID"`
 	StartDate   time.Time
 	EndDate     time.Time
-	Quota       int `gorm:"type:int DEFAULT 15"`
-	CategoryID  uint
-	Category    Category `gorm:"foreignKey:CategoryID"`
+	Quota       uint
+	Description string `gorm:"size:255"`
 }

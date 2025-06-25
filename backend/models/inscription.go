@@ -1,9 +1,11 @@
 package models
 
+import "time"
+
 type Inscription struct {
-	ID         uint        `gorm:"primaryKey;autoIncrement"`
-	StartDate  string      `gorm:"type:date"`
-	EndDate    string      `gorm:"type:date"`
-	Activities []*Activity `gorm:"many2many:inscription_activities"`
+	ID         uint
 	UserID     uint
+	ActivityID uint `gorm:"foreignKey:ActivityID"`
+	CreatedAt  time.Time
+	UpdatedAt  time.Time
 }
